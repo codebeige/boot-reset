@@ -1,25 +1,53 @@
 # boot-reset
 
-A Boot task to do many wonderful things.
+```clojure
+[codebeige/boot-reset "0.0.0"] ;; latest release
+```
+
+[Boot][1] task to start [Component][2] lifecycle on first run and subsequently
+do a reset on file changes.
+
+* Provides the `reset` task
+* Performs arbitrary side effects before and after wrapped handlers
+
 
 ## Usage
 
-FIXME: explanation
+Add dependency to `build.boot` and `require` the task:
 
-Run the `boot-reset-pre` task:
+```clj
+(set-env! :dependencies '[[codebeige/boot-reset "X.Y.Z" :scope "test"]])
 
-    $ boot boot-reset-pre
+(require '[codebeige.boot-reset :refer [reset]])
+```
+Add the task to your development pipeline after `watch` and before any
+*tasks that should be wrapped* [(e.g. `refresh`)][3]:
 
-To use this in your project, add `[boot-reset "0.1.0-SNAPSHOT"]` to your `:dependencies`
-and then require the task:
+```clj
+(deftask dev []
+  (comp
+   (watch)
+   (reset)
+   (refresh)))
+```
 
-    (require '[boot-reset.core :refer [boot-reset-pre]])
 
-Other tasks include: `boot-reset-simple`, `boot-reset-post`, `boot-reset-pass-thru`.
+## Development
+
+Use the provided `dev` task:
+
+```sh
+boot dev
+```
+
+This will start up an interactive development environment that will reinstall
+the `boot-reset` jar locally on every file change.
+
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright (c) 2017 Tibor Claassen. Distributed under the MIT License.
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+[1]: https://github.com/boot-clj/boot
+[2]: https://github.com/stuartsierra/component
+[3]: https://github.com/samestep/boot-refresh

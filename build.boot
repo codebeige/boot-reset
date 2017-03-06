@@ -1,28 +1,31 @@
-(def project 'boot-reset)
-(def version "0.1.0-SNAPSHOT")
+(set-env! :resource-paths #{"src"}
+          :dependencies   '[[org.clojure/clojure "1.9.0-alpha14" :scope "provided"]
+                            [adzerk/bootlaces "0.1.13" :scope "test"]
+                            [boot/core "2.7.1" :scope "test"] ])
 
-(set-env! :resource-paths #{"resources" "src"}
-          :source-paths   #{"test"}
-          :dependencies   '[[org.clojure/clojure "RELEASE"]
-                            [boot/core "RELEASE" :scope "test"]
-                            [adzerk/boot-test "RELEASE" :scope "test"]])
+(require
+ '[adzerk.bootlaces :refer [bootlaces!
+                            build-jar
+                            push-snapshot
+                            push-release]]
+ '[codebeige.boot-reset :refer [reset]])
+
+(def +version+ "0.1.0-SNAPSHOT")
+(bootlaces! +version+)
 
 (task-options!
- pom {:project     project
-      :version     version
-      :description "FIXME: write description"
-      :url         "http://example/FIXME"
-      :scm         {:url "https://github.com/yourname/boot-reset"}
-      :license     {"Eclipse Public License"
-                    "http://www.eclipse.org/legal/epl-v10.html"}})
+ pom {:project     'codebeige/boot-reset
+      :version     +version+
+      :description "Boot task for resetting component lifecycle in development."
+      :url         "https://github.com/codebeige/boot-reset"
+      :scm         {:url "https://github.com/codebeige/boot-reset.git"}
+      :license     {"MIT License"
+                    "https://opensource.org/licenses/MIT"}})
 
-(deftask build
-  "Build and install the project locally."
+(deftask dev
+  "Boot interactive development environment."
   []
-  (comp (pom) (jar) (install)))
-
-(require '[adzerk.boot-test :refer [test]]
-         '[boot-reset.core :refer [boot-reset-simple
-                                 boot-reset-pre
-                                 boot-reset-post
-                                 boot-reset-pass-thru]])
+  (comp
+   (watch)
+   (repl :server true)
+   (build-jar)))

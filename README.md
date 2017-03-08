@@ -1,7 +1,7 @@
 # boot-reset
 
 ```clojure
-[codebeige/boot-reset "0.0.0"] ;; latest release
+[codebeige/boot-reset "0.1.0-SNAPSHOT"] ;; latest release
 ```
 
 [Boot][1] task to start [Component][2] lifecycle on first run and subsequently

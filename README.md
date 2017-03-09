@@ -11,6 +11,7 @@ do a reset on file changes.
 
 * Provides the `reset` task
 * Performs arbitrary side effects before and after wrapped handlers
+* Triggers on file changes optionally filtered by pattern
 
 
 ## Usage
@@ -18,10 +19,20 @@ do a reset on file changes.
 Add dependency to `build.boot` and `require` the task:
 
 ```clj
-(set-env! :dependencies '[[codebeige/boot-reset "X.Y.Z" :scope "test"]])
+(set-env! :dependencies '[[codebeige/boot-reset "RELEASE" :scope "test"]])
 
 (require '[codebeige.boot-reset :refer [reset]])
 ```
+
+Provide symbols referring to the functions that should be run as options:
+
+```clj
+(task-options!
+ reset {:start 'dev/start
+        :stop  'dev/stop
+        :files #{#"\.cljc?$"}})
+```
+
 Add the task to your development pipeline after `watch` and before any
 *tasks that should be wrapped* [(e.g. `refresh`)][3]:
 

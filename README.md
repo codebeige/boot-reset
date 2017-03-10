@@ -2,7 +2,7 @@
 
 [](dependency)
 ```clojure
-[codebeige/boot-reset "0.1.3-SNAPSHOT"] ;; latest release
+[codebeige/boot-reset "0.1.3"] ;; latest release
 ```
 [](/dependency)
 

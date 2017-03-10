@@ -10,7 +10,7 @@
                             push-release]]
  '[codebeige.boot-reset :refer [reset]])
 
-(def +version+ "0.1.3-SNAPSHOT")
+(def +version+ "0.1.3")
 (bootlaces! +version+)
 
 (task-options!

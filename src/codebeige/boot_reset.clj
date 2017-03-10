@@ -37,14 +37,14 @@
 
   Example:
   boot watch reload --start dev/start --stop dev/stop refresh"
-  [x stop  SYMBOL sym "The function to call before wrapped tasks are run."
+  [x stop SYMBOL sym "The function to call before wrapped tasks are run."
    s start SYMBOL sym "The function to call after wrapped tasks did complete."
-   f files PATTERNS #{regex} "File patterns that trigger a reset."]
+   o only REGEX #{regex} "File patterns that trigger a reset."]
   (require-ns stop start)
   (let [prev-fs (atom nil)]
     (fn [handler]
       (fn [fs]
-        (let [run? (changed? @prev-fs fs files)]
+        (let [run? (or (nil? @prev-fs) (changed? @prev-fs fs only))]
           (when run? (maybe-run stop))
           (let [fs* (handler fs)]
             (when run? (maybe-run start))
